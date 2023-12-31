@@ -1,7 +1,8 @@
 <template>
     <div>
-      <h1>Potwierdzenie Zamówienia</h1>
+      <h2>Order Confirmation</h2>
       <!-- Komponenty i logika dla potwierdzenia zamówienia -->
+      <router-link to="/">Back to Product List</router-link>
     </div>
   </template>
   
@@ -25,7 +26,7 @@
   };
   </script>
   
-  <style>
+  <style scoped>
  
   </style>
   

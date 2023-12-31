@@ -1,25 +1,32 @@
 <template>
-    <div>
-      <h3>{{ product.name }}</h3>
-      <p>{{ product.description }}</p>
-      <p>Cena: {{ product.price }} zł</p>
-      <p>Kategoria: {{ product.category }}</p>
-      <button @click="addToCart">Kup</button>
-    </div>
-  </template>
+  <tr>
+    <td>{{ index }}</td>
+    <td>{{ product.name }}</td>
+    <td>{{ product.description }}</td>
+    <td>{{ product.price }} zł</td>
+    <td>{{ product.weight }} kg</td>
+    <td>{{ product.category }}</td>
+    <td>
+      <button @click="addToCart" class="btn btn-primary">Kup</button>
+    </td>
+  </tr>
+</template>
   
-  <script>
-  export default {
-    props: ['product'],
-    methods: {
-      addToCart() {
-        // Metoda dodająca produkt do koszyka
-      },
+
+  
+<script>
+export default {
+  props: {
+    product: Object,
+    index: Number,
+  },
+  methods: {
+    addToCart() {
+      this.$emit('add-to-cart', this.product);
     },
-  };
-  </script>
+  },
+};
+</script>
   
-  <style>
- 
-  </style>
+<style scoped></style>
   
