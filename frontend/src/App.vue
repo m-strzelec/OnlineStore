@@ -2,8 +2,8 @@
   <div id="app">
     <header>
       <router-link to="/product-list">Product List</router-link>
-      <router-link to="/order-list">Order List</router-link>
       <router-link to="/shopping-cart">Shopping Cart</router-link>
+      <router-link to="/order-list">Order List</router-link>
     </header>
     <router-view />
     <footer>

@@ -36,7 +36,7 @@ app.use(bodyParser.json());
 app.use('/products', productRoutes);
 app.use('/categories', categoryRoutes);
 app.use('/orders', orderRoutes);
-app.use('/orderStatuses', orderStatusRoutes);
+app.use('/status', orderStatusRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
