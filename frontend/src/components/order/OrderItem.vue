@@ -12,6 +12,7 @@
 
 <script>
 export default {
+    name: 'OrderItem',
     props: {
         order: Object,
         index: Number,

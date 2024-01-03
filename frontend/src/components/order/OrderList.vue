@@ -1,23 +1,25 @@
 <template>
-    <div class="container mt-4">
+    <div class="container mt-5">
         <h1>Order List</h1>
-        <table class="table table-striped table-bordered table-hover">
-            <thead class="table-dark">
-                <tr>
-                    <th scope="row">#</th>
-                    <th>Order ID</th>
-                    <th>Username</th>
-                    <th>Email</th>
-                    <th>Phone Number</th>
-                    <th>Approval Date</th>
-                    <th>Order Status</th>
-                </tr>
-            </thead>
-            <tbody class="align-middle">
-                <OrderItem v-for="(order, index) in orders" :key="order._id" :order="order"
-                    :status="getStatusName(order.orderStatus)" :index="index + 1" />
-            </tbody>
-        </table>
+        <div class="my-3">
+            <table class="table table-striped table-bordered table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="row">#</th>
+                        <th>Order ID</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Phone Number</th>
+                        <th>Approval Date</th>
+                        <th>Order Status</th>
+                    </tr>
+                </thead>
+                <tbody class="align-middle">
+                    <OrderItem v-for="(order, index) in orders" :key="order._id" :order="order"
+                        :status="getStatusName(order.orderStatus)" :index="index + 1" />
+                </tbody>
+            </table>
+        </div>
     </div>
 </template>
   
@@ -26,14 +28,15 @@ import axios from 'axios';
 import OrderItem from './OrderItem.vue'
 
 export default {
-    components: {
-        OrderItem,
-    },
+    name: 'OrderList',
     data() {
         return {
             orders: [],
             orderStatuses: [],
         };
+    },
+    components: {
+        OrderItem,
     },
     methods: {
         async fetchOrders() {
@@ -64,10 +67,5 @@ export default {
 };
 </script>
   
-<style scoped>
-.table {
-    margin: auto;
-    width: 90%;
-}
-</style>
+<style scoped></style>
   

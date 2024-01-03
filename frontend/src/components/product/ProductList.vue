@@ -1,5 +1,5 @@
 <template>
-    <div class="container mt-4">
+    <div class="container mt-5">
         <h1>Product List</h1>
         <div class="my-3 form-group row justify-content-center">
             <label for="productNameFilter" class="col-sm-1 col-form-label">Product:</label>
@@ -30,7 +30,8 @@
             </thead>
             <tbody class="align-middle">
                 <ProductItem v-for="(product, index) in filteredProducts" :key="product._id" :product="product"
-                    :category="getCategoryName(product.category)" :index="index + 1" @add-to-cart="addToCart" />
+                    :category="getCategoryName(product.category)" :index="index + 1"
+                    @add-to-cart="addToCart(product)" />
             </tbody>
         </table>
     </div>
@@ -39,11 +40,16 @@
 <script>
 import axios from 'axios';
 import _ from 'lodash';
+import { useToast } from 'vue-toastification';
 import ProductItem from './ProductItem.vue';
 
 export default {
-    components: {
-        ProductItem,
+    name: 'ProductList',
+    setup() {
+        const toast = useToast();
+        return {
+            toast,
+        };
     },
     data() {
         return {
@@ -54,13 +60,16 @@ export default {
             categoryFilter: '',
         };
     },
+    components: {
+        ProductItem,
+    },
     methods: {
         addToCart(product) {
-            if (product) {
-                this.$emit('add-to-cart', product);
-                console.log(`Dodano do koszyka: ${product}`);
-            } else {
-                console.error('Invalid product:', product);
+            try {
+                this.$store.commit('updateData', product._id);
+                this.toast.info(`Product "${product.name}" added to the cart!`);
+            } catch (error) {
+                this.toast.error(`Error: "${error}"`);
             }
         },
         async fetchProducts() {

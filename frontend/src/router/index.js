@@ -1,13 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
-import ProductList from '../components/ProductList.vue';
-import OrderList from '../components/OrderList.vue';
-import ShoppingCart from '../components/ShoppingCart.vue';
+import HomePage from '../components/common/HomePage';
+import ProductList from '../components/product/ProductList';
+import OrderList from '../components/order/OrderList';
+import ShoppingCart from '../components/cart/ShoppingCart';
 
 const routes = [
   {
     path: '/',
-    redirect: '/product-list',
+    name: 'HomePage',
+    component: HomePage,
   },
   {
     path: '/product-list',
@@ -23,6 +25,7 @@ const routes = [
     path: '/shopping-cart',
     name: 'ShoppingCart',
     component: ShoppingCart,
+    props: true,
   },
 ];
 

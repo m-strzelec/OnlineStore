@@ -14,10 +14,11 @@
 
 <script>
 export default {
+  name: 'ProductItem',
   props: ['product', 'category', 'index'],
   methods: {
     addToCart() {
-      this.$emit('add-to-cart', this.product._id);
+      this.$emit('add-to-cart', this.product);
     },
   },
 };

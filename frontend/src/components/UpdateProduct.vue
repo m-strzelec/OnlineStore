@@ -30,6 +30,7 @@
 import axios from 'axios';
 
 export default {
+    name: 'UpdateProduct',
     data() {
         return {
             productId: this.$route.params.id,
