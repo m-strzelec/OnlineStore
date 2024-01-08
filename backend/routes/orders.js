@@ -29,7 +29,7 @@ router.post('/', async (req, res) => {
             });
         }
         // Walidacja numeru telefonu
-        if (!/^\d+$/.test(phoneNumber)) {
+        if (!/^\d{9}$/.test(phoneNumber)) {
             return res.status(HttpStatus.StatusCodes.BAD_REQUEST).json({ message: 'Numer telefonu zawiera niedozwolone znaki' });
         }
         // Walidacja emaila

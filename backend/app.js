@@ -12,25 +12,25 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // Middleware to check access conditions
-const checkAccess = (req, res, next) => {
-  const allowedOrigins = ['http://localhost:8080'];
-  const allowedPostRoutes = ['/orders'];
+// const checkAccess = (req, res, next) => {
+//   const allowedOrigins = ['http://localhost:8080'];
+//   const allowedPostRoutes = ['/orders'];
 
-  if (!allowedOrigins.includes(req.headers.origin)) {
-    return res.status(403).json({ error: 'Forbidden' });
-  }
+//   if (!allowedOrigins.includes(req.headers.origin)) {
+//     return res.status(403).json({ error: 'Forbidden' });
+//   }
 
-  if (req.method === 'POST' && allowedPostRoutes.includes(req.path)) {
-    next();
-  } else if (req.method === 'GET') {
-    next();
-  } else {
-    return res.status(403).json({ error: 'Forbidden' });
-  }
-};
+//   if (req.method === 'POST' && allowedPostRoutes.includes(req.path)) {
+//     next();
+//   } else if (req.method === 'GET') {
+//     next();
+//   } else {
+//     return res.status(403).json({ error: 'Forbidden' });
+//   }
+// };
 
-// Apply checkAccess middleware
-app.use(checkAccess);
+// // Apply checkAccess middleware
+// app.use(checkAccess);
 
 const corsOptions = {
   origin: 'http://localhost:8080',

@@ -18,7 +18,7 @@
         <div class="form-group row mb-3">
           <label for="phone" class="col-sm-2 col-form-label">Phone:</label>
           <div class="col-sm-10">
-            <input v-model="formData.phone" type="tel" class="form-control" id="phone" required />
+            <input v-model="formData.phone" type="tel" class="form-control" id="phone" pattern="^\d{9}$" required />
           </div>
         </div>
         <button type="submit" class="btn btn-primary">Submit Order</button>

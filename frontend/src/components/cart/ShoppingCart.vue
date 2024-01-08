@@ -97,8 +97,8 @@ export default {
             axios.post(`http://localhost:3000/orders`, body)
                 .then(response => {
                     console.log('Order submitted successfully:', response.data);
+                    this.$router.push('product-list');
                     this.toast.success('Order submitted successfully!');
-                    //location.reload();
                 })
                 .catch(error => {
                     this.toast.error('Error while submitting the order');
