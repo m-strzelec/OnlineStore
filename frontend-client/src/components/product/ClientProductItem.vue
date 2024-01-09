@@ -7,18 +7,18 @@
     <td>{{ product.weight.toFixed(3) }} kg</td>
     <td>{{ category }}</td>
     <td>
-      <button @click="editProduct" class="btn btn-primary"><i class="bi bi-pencil-fill"></i></button>
+      <button @click="addToCart" class="btn btn-primary">Add to cart</button>
     </td>
   </tr>
 </template>
 
 <script>
 export default {
-  name: 'ProductItem',
+  name: 'ClientProductItem',
   props: ['product', 'category', 'index'],
   methods: {
-    editProduct() {
-      this.$emit('edit-product', this.product);
+    addToCart() {
+      this.$emit('add-to-cart', this.product);
     },
   },
 };

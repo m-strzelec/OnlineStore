@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
         res.json(orderStatuses);
     } catch (error) {
         console.error(error);
-        res.status(HttpStatus.StatusCodes.INTERNAL_SERVER_ERROR).json({ message: 'Błąd serwera przy pobieraniu stanów zamówień' });
+        res.status(HttpStatus.StatusCodes.INTERNAL_SERVER_ERROR).json({ message: 'Error while getting order statuses' });
     }
 });
 

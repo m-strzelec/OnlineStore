@@ -11,7 +11,7 @@ router.get('/', async (req, res) => {
         res.json(orders);
     } catch (error) {
         console.error(error);
-        res.status(HttpStatus.StatusCodes.INTERNAL_SERVER_ERROR).json({ message: 'Błąd serwera przy pobieraniu zamówień' });
+        res.status(HttpStatus.StatusCodes.INTERNAL_SERVER_ERROR).json({ message: 'Error while getting orders' });
     }
 });
 
@@ -30,51 +30,54 @@ router.post('/', async (req, res) => {
         }
         // Walidacja numeru telefonu
         if (!/^\d{9}$/.test(phoneNumber)) {
-            return res.status(HttpStatus.StatusCodes.BAD_REQUEST).json({ message: 'Numer telefonu zawiera niedozwolone znaki' });
+            return res.status(HttpStatus.StatusCodes.BAD_REQUEST).json({ message: 'Phone numbers contains unallowed characters' });
         }
         // Walidacja emaila
         if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]{2,}$/.test(email)) {
-            return res.status(HttpStatus.StatusCodes.BAD_REQUEST).json({ message: 'Email zawiera niedozwolone znaki' });
+            return res.status(HttpStatus.StatusCodes.BAD_REQUEST).json({ message: 'Email contains unallowed characters' });
         }
         // Walidacja ilości towarów
         const invalidQuantity = orderedProducts.some(product => isNaN(product.quantity) || product.quantity <= 0);
         if (invalidQuantity) {
-            return res.status(HttpStatus.StatusCodes.BAD_REQUEST).json({ message: 'Ilość towarów w zamówieniu musi być większa niż zero' });
+            return res.status(HttpStatus.StatusCodes.BAD_REQUEST).json({ message: 'Amount of items must be greater than zero' });
         }
         // Walidacja identyfikatorów produktów
         const productIds = orderedProducts.map(product => product.product);
         const productsExist = await Product.find({ _id: { $in: productIds } });
         if (productsExist.length !== productIds.length) {
-            return res.status(HttpStatus.StatusCodes.BAD_REQUEST).json({ message: 'Nieprawidłowe identyfikatory produktów w zamówieniu' });
+            return res.status(HttpStatus.StatusCodes.BAD_REQUEST).json({ message: 'Wrong products id values in order' });
         }
 
         const newOrder = await Order.create(req.body);
         res.status(HttpStatus.StatusCodes.CREATED).json(newOrder);
     } catch (error) {
         console.error(error);
-        res.status(HttpStatus.StatusCodes.INTERNAL_SERVER_ERROR).json({ message: 'Błąd serwera przy dodawaniu nowego zamówienia' });
+        res.status(HttpStatus.StatusCodes.INTERNAL_SERVER_ERROR).json({ message: 'Error while adding new order' });
     }
 });
 
 router.patch('/:id', async (req, res) => {
     try {
+        if(req.params.id === 'undefinedId') {
+            return res.status(HttpStatus.StatusCodes.NOT_FOUND).json({ message: 'Order not found' });
+        }
         const { orderStatus } = req.body;
         const orderId = req.params.id;
 
         // Walidacja istnienia zamówienia
         const currentOrder = await Order.findById(orderId);
         if (!currentOrder) {
-            return res.status(HttpStatus.StatusCodes.NOT_FOUND).json({ message: 'Zamówienie nie znalezione' });
+            return res.status(HttpStatus.StatusCodes.NOT_FOUND).json({ message: 'Order not found' });
         }
         // Walidacja zmiany statusu
         const currentStatus = await OrderStatus.findById(currentOrder.orderStatus);
         const newStatus = await OrderStatus.findById(orderStatus);
         if (!currentStatus || !newStatus) {
-            return res.status(HttpStatus.StatusCodes.NOT_FOUND).json({ message: 'Podany status zamówienia nie istnieje' });
+            return res.status(HttpStatus.StatusCodes.NOT_FOUND).json({ message: 'Status does not exist' });
         }
         const validStatusChange = isValidStatusChange(currentStatus.name, newStatus.name);
         if (!validStatusChange) {
-            return res.status(HttpStatus.StatusCodes.BAD_REQUEST).json({ message: 'Nieprawidłowa zmiana statusu zamówienia' });
+            return res.status(HttpStatus.StatusCodes.BAD_REQUEST).json({ message: 'Unallowed order status change' });
         }
         let data = req.body;
         if (newStatus.name === 'APPROVED') {
@@ -85,23 +88,26 @@ router.patch('/:id', async (req, res) => {
         }
         const updatedOrder = await Order.findByIdAndUpdate(orderId, data, { new: true });
         if (!updatedOrder) {
-            return res.status(HttpStatus.StatusCodes.NOT_FOUND).json({ message: 'Zamówienie nie znalezione' });
+            return res.status(HttpStatus.StatusCodes.NOT_FOUND).json({ message: 'Order not found' });
         }
         res.json(updatedOrder);
     } catch (error) {
         console.error(error);
-        res.status(HttpStatus.StatusCodes.INTERNAL_SERVER_ERROR).json({ message: 'Błąd serwera przy aktualizacji zamówienia' });
+        res.status(HttpStatus.StatusCodes.INTERNAL_SERVER_ERROR).json({ message: 'Error while updating order' });
     }
 });
 
 router.get('/status/:statusId', async (req, res) => {
+    if(req.params.statusId === 'undefinedId') {
+        return res.status(HttpStatus.StatusCodes.NOT_FOUND).json({ message: 'Status not found' });
+    }
     const statusId = req.params.statusId;
     try {
         const orders = await Order.find({ 'orderStatus': statusId });
         res.json(orders);
     } catch (error) {
         console.error(error);
-        res.status(HttpStatus.StatusCodes.INTERNAL_SERVER_ERROR).json({ message: 'Błąd serwera przy pobieraniu zamówień według statusu' });
+        res.status(HttpStatus.StatusCodes.INTERNAL_SERVER_ERROR).json({ message: 'Error while getting orders by status' });
     }
 });
 

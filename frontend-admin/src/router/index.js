@@ -1,38 +1,44 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
-import HomePage from '../components/common/HomePage';
-import ProductList from '../components/product/ProductList';
-import OrderList from '../components/order/OrderList';
-import OrderListByState from '../components/order/OrderListByStatus';
-import ProductEdit from '../components/product/ProductEdit';
+import AdminHomePage from '../components/common/AdminHomePage';
+import AdminProductList from '../components/product/AdminProductList';
+import AdminOrderList from '../components/order/AdminOrderList';
+import AdminOrderListByState from '../components/order/AdminOrderListByStatus';
+import AdminProductEdit from '../components/product/AdminProductEdit';
+import AdminAddProduct from '../components/product/AdminAddProduct';
 
 const routes = [
     {
         path: '/',
-        name: 'HomePage',
-        component: HomePage,
+        name: 'AdminHomePage',
+        component: AdminHomePage,
     },
     {
         path: '/product-list',
-        name: 'ProductList',
-        component: ProductList,
+        name: 'AdminProductList',
+        component: AdminProductList,
     },
     {
         path: '/order-list',
-        name: 'OrderList',
-        component: OrderList,
+        name: 'AdminOrderList',
+        component: AdminOrderList,
     },
     {
         path: '/order-list-by-state',
-        name: 'OrderListByState',
-        component: OrderListByState,
+        name: 'AdminOrderListByState',
+        component: AdminOrderListByState,
     },
     {
         path: '/product-edit',
-        name: 'ProductEdit',
-        component: ProductEdit,
+        name: 'AdminProductEdit',
+        component: AdminProductEdit,
         props: true,
-    }
+    },
+    {
+        path: '/add-product',
+        name: 'AdminAddProduct',
+        component: AdminAddProduct,
+    },
 ];
 
 const router = createRouter({

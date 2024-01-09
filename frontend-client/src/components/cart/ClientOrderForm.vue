@@ -29,7 +29,7 @@
 
 <script>
 export default {
-  name: 'OrderForm',
+  name: 'ClientOrderForm',
   data() {
     return {
       formData: {

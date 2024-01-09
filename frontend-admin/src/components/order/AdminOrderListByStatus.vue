@@ -17,8 +17,11 @@
                     <tr>
                         <th scope="row">#</th>
                         <th>Order ID</th>
-                        <th>Approval Date</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Ordered Products</th>
                         <th>Total Price</th>
+                        <th>Approval Date</th>
                         <th>Order Status</th>
                     </tr>
                 </thead>
@@ -26,8 +29,15 @@
                     <tr v-for="(order, index) in filteredOrders" :key="order._id" :index="index">
                         <td> {{ index + 1 }} </td>
                         <td> {{ order._id }} </td>
+                        <td> {{ order.userName }} </td>
+                        <td> {{ order.email }} </td>
+                        <td>
+                            <p v-for="product of order.orderedProducts" :key="product.product">
+                                {{ getProductNames(product) }}
+                            </p>
+                        </td>
+                        <td> {{ getTotalPrice(order.orderedProducts) }} zł </td>
                         <td> {{ order.approvalDate }} </td>
-                        <td> {{ getTotalPrice(order) }} zł</td>
                         <td> {{ getStatusName(order.orderStatus) }} </td>
                     </tr>
                 </tbody>
@@ -41,7 +51,7 @@ import axios from 'axios';
 import _ from 'lodash';
 
 export default {
-    name: 'OrderListByStatus',
+    name: 'AdminOrderListByStatus',
     data() {
         return {
             orders: [],
@@ -78,18 +88,23 @@ export default {
                 console.error('Error fetching orders:', error);
             }
         },
-        getTotalPrice(order) {
+        getTotalPrice(orderedProducts) {
             let total = 0;
-            for (const newproduct of order.orderedProducts) {
-                const produkt = this.products.find((p) => p._id === newproduct.product);
-                total += newproduct.quantity * produkt.price;
+            for (const newproduct of orderedProducts) {
+                const product = this.products.find((p) => p._id === newproduct.product);
+                total += newproduct.quantity * product.price;
             }
             return total.toFixed(2);
+        },
+        getProductNames(product) {
+            const productNew = this.products.find((n) => n._id === product.product);
+            return new String("Name: " + productNew.name + ", Quantity: " + product.quantity + '\n');
         },
         getStatusName(statusId) {
             const status = this.orderStatuses.find((s) => s._id === statusId);
             return status ? status.name : 'Unknown';
         },
+
         applyFilters() {
             this.filteredOrders = _.filter(this.orders, (order) => {
                 const statusMatch = !this.statusFilter || order.orderStatus === this.statusFilter;

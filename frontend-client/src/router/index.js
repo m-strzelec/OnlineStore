@@ -1,30 +1,24 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
-import HomePage from '../components/common/HomePage';
-import ProductList from '../components/product/ProductList';
-import OrderList from '../components/order/OrderList';
-import ShoppingCart from '../components/cart/ShoppingCart';
+import ClientHomePage from '../components/common/ClientHomePage';
+import ClientProductList from '../components/product/ClientProductList';
+import ClientShoppingCart from '../components/cart/ClientShoppingCart';
 
 const routes = [
   {
     path: '/',
-    name: 'HomePage',
-    component: HomePage,
+    name: 'ClientHomePage',
+    component: ClientHomePage,
   },
   {
     path: '/product-list',
-    name: 'ProductList',
-    component: ProductList,
-  },
-  {
-    path: '/order-list',
-    name: 'OrderList',
-    component: OrderList,
+    name: 'ClientProductList',
+    component: ClientProductList,
   },
   {
     path: '/shopping-cart',
-    name: 'ShoppingCart',
-    component: ShoppingCart,
+    name: 'ClientShoppingCart',
+    component: ClientShoppingCart,
     props: true,
   },
 ];

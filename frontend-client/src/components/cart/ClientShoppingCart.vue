@@ -39,10 +39,10 @@
 <script>
 import axios from 'axios';
 import { useToast } from 'vue-toastification';
-import OrderForm from './OrderForm.vue';
+import OrderForm from './ClientOrderForm.vue';
 
 export default {
-    name: 'ShoppingCart',
+    name: 'ClientShoppingCart',
     setup() {
         const toast = useToast();
         return {

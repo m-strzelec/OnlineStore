@@ -2,11 +2,11 @@ import { createStore } from 'vuex';
 
 const store = createStore({
   state: {
-    id: '',
+    id: 'undefinedId',
   },
   mutations: {
     clearID(state) {
-      state.id = '';
+      state.id = 'undefinedId';
     },
     updateData(state, newData) {
       state.id = newData;

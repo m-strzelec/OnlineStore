@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
         res.json(categories);
     } catch (error) {
         console.error(error);
-        res.status(HttpStatus.StatusCodes.INTERNAL_SERVER_ERROR).json({ message: 'Błąd serwera przy pobieraniu kategorii' });
+        res.status(HttpStatus.StatusCodes.INTERNAL_SERVER_ERROR).json({ message: 'Error while getting categories' });
     }
 });
 

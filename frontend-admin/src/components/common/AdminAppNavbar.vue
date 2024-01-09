@@ -11,8 +11,9 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <div class="navbar-nav">
                     <router-link to="/product-list" class="nav-item nav-link">Manage Product List</router-link>
+                    <router-link to="/add-product" class="nav-item nav-link">Add Product</router-link>
                     <router-link to="/order-list" class="nav-item nav-link">Unapproved Orders</router-link>
-                    <router-link to="/order-list-by-state" class="nav-item nav-link">Order List</router-link>
+                    <router-link to="/order-list-by-state" class="nav-item nav-link">Order List By Status</router-link>
                 </div>
             </div>
         </div>
@@ -21,7 +22,7 @@
 
 <script>
 export default {
-    name: 'AppNavbar'
+    name: 'AdminAppNavbar'
 };
 </script>
   

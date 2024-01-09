@@ -41,10 +41,10 @@
 import axios from 'axios';
 import _ from 'lodash';
 import { useToast } from 'vue-toastification';
-import ProductItem from './ProductItem.vue';
+import ProductItem from './ClientProductItem.vue';
 
 export default {
-    name: 'ProductList',
+    name: 'ClientProductList',
     setup() {
         const toast = useToast();
         return {

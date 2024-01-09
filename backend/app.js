@@ -22,18 +22,26 @@ function customCors(req, res, next) {
     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
   } else if (origin === clientOrigin) {
     res.header('Access-Control-Allow-Origin', clientOrigin);
-    if (req.path === '/orders' && req.method === 'POST') {
+    if (req.method === 'OPTIONS') {
+      res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH');
+      res.header('Access-Control-Allow-Headers', 'Content-Type');
+      res.status(200).end();
+      return;
+    } else if (req.path === '/orders' && req.method === 'POST') {
       res.header('Access-Control-Allow-Methods', 'POST');
     } else if ((req.path === '/products' || req.path === '/categories') && req.method === 'GET') {
+      res.header('Access-Control-Allow-Methods', 'GET');
+    } else if (req.path.startsWith('/products/') && req.method === 'GET') {
       res.header('Access-Control-Allow-Methods', 'GET');
     } else {
       res.status(405).send('Method Not Allowed');
       return;
     }
-  } else {
-    res.status(403).send('Origin Not Allowed');
-    return;
   }
+  // } else {
+  //   res.status(403).send('Origin Not Allowed');
+  //   return;
+  // }
 
   res.header('Access-Control-Allow-Headers', 'Content-Type');
   res.header('Access-Control-Allow-Credentials', 'true');

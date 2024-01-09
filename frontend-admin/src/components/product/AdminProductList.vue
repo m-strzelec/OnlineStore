@@ -41,10 +41,10 @@
 import axios from 'axios';
 import _ from 'lodash';
 import { useToast } from 'vue-toastification';
-import ProductItem from './ProductItem.vue';
+import ProductItem from './AdminProductItem.vue';
 
 export default {
-    name: 'ProductList',
+    name: 'AdminProductList',
     setup() {
         const toast = useToast();
         return {
@@ -70,7 +70,7 @@ export default {
                 this.$router.push('/product-edit');
                 this.toast.info(`Product "${product.name}" available to edit`);
             } catch (error) {
-                this.toast.error(`Error: "${error}"`);
+                this.toast.error(`Error while trying to edit product: ${error.response.data.message}`);
             }
         },
         async fetchProducts() {
@@ -79,6 +79,7 @@ export default {
                 this.products = response.data;
                 this.applyFilters();
             } catch (error) {
+                this.toast.error(`Error while geting products: ${error.response.data.message}`);
                 console.error('Error fetching products:', error);
             }
         },
@@ -87,6 +88,7 @@ export default {
                 const response = await axios.get('http://localhost:3000/categories');
                 this.categories = response.data;
             } catch (error) {
+                this.toast.error(`Error while getting categories: ${error.response.data.message}`);
                 console.error('Error fetching categories:', error);
             }
         },

@@ -12,7 +12,6 @@
                 <div class="navbar-nav">
                     <router-link to="/product-list" class="nav-item nav-link">Product List</router-link>
                     <router-link to="/shopping-cart" class="nav-item nav-link">Shopping Cart</router-link>
-                    <router-link to="/order-list" class="nav-item nav-link">Order List</router-link>
                 </div>
             </div>
         </div>
@@ -21,7 +20,7 @@
 
 <script>
 export default {
-    name: 'AppNavbar'
+    name: 'ClientAppNavbar'
 };
 </script>
   
