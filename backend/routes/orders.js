@@ -22,10 +22,10 @@ router.post('/', async (req, res) => {
         // Walidacja pól zamówienia
         if (!userName || !email || !phoneNumber || (!orderedProducts || orderedProducts.length === 0)) {
             return res.status(HttpStatus.StatusCodes.BAD_REQUEST).json({
-                message: !userName ? 'Nieprawidłowa nazwa użytkownika' :
-                    !email ? 'Nieprawidłowy e-mail' :
-                        !phoneNumber ? 'Nieprawidłowy numer telefonu' :
-                            'Zamówienie musi zawierać co najmniej jeden produkt'
+                message: !userName ? 'Wrong username' :
+                    !email ? 'Wrong e-mail' :
+                        !phoneNumber ? 'Wrong phone number' :
+                            'Order need to have at least one product'
             });
         }
         // Walidacja numeru telefonu

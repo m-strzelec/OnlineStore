@@ -1,7 +1,7 @@
 const express = require('express');
-const cors = require('cors');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const HttpStatus = require('http-status-codes');
 
 const productRoutes = require('./routes/products');
 const categoryRoutes = require('./routes/categories');
@@ -25,7 +25,7 @@ function customCors(req, res, next) {
     if (req.method === 'OPTIONS') {
       res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH');
       res.header('Access-Control-Allow-Headers', 'Content-Type');
-      res.status(200).end();
+      res.status(HttpStatus.StatusCodes.OK).end();
       return;
     } else if (req.path === '/orders' && req.method === 'POST') {
       res.header('Access-Control-Allow-Methods', 'POST');
@@ -34,20 +34,16 @@ function customCors(req, res, next) {
     } else if (req.path.startsWith('/products/') && req.method === 'GET') {
       res.header('Access-Control-Allow-Methods', 'GET');
     } else {
-      res.status(405).send('Method Not Allowed');
+      res.status(HttpStatus.StatusCodes.METHOD_NOT_ALLOWED).json({ message: 'Method not allowed for client' });
       return;
     }
   }
-  // } else {
-  //   res.status(403).send('Origin Not Allowed');
-  //   return;
-  // }
 
   res.header('Access-Control-Allow-Headers', 'Content-Type');
   res.header('Access-Control-Allow-Credentials', 'true');
 
   if (req.method === 'OPTIONS') {
-    res.sendStatus(200);
+    res.sendStatus(HttpStatus.StatusCodes.OK);
   } else {
     next();
   }
