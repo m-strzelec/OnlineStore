@@ -6,6 +6,9 @@ const store = createStore({
     products: [],
   },
   mutations: {
+    clearProducts(state) {
+      state.products = [];
+    },
     updateData(state, newData) {
       const existingProductIndex = state.products.findIndex(product => product.productId === newData);
       if (existingProductIndex !== -1) {

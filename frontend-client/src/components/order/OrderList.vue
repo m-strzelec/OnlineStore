@@ -15,8 +15,13 @@
                     </tr>
                 </thead>
                 <tbody class="align-middle">
-                    <OrderItem v-for="(order, index) in orders" :key="order._id" :order="order"
-                        :status="getStatusName(order.orderStatus)" :index="index + 1" />
+                    <OrderItem
+                        v-for="(order, index) in orders"
+                        :key="order._id"
+                        :order="order"
+                        :status="getStatusName(order.orderStatus)"
+                        :index="index + 1"
+                    />
                 </tbody>
             </table>
         </div>

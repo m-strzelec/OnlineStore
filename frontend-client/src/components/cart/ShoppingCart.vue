@@ -32,7 +32,7 @@
         </div>
         <h3>Total Price: {{ totalPrice }} zł</h3>
         <OrderForm :username="username" :email="email" :phone="phone" @submitOrder="submitOrder" />
-        <router-link to="/" class="btn btn-outline-info mt-3">Back to Product List</router-link>
+        <router-link to="/product-list" class="btn btn-outline-info mt-3">Back to Product List</router-link>
     </div>
 </template>
 
@@ -93,12 +93,14 @@ export default {
                     product: item.productId,
                     quantity: item.quantity,
                 })),
-            }
+            };
             axios.post(`http://localhost:3000/orders`, body)
                 .then(response => {
                     console.log('Order submitted successfully:', response.data);
                     this.$router.push('product-list');
                     this.toast.success('Order submitted successfully!');
+                    this.$store.commit('clearProducts');
+
                 })
                 .catch(error => {
                     this.toast.error('Error while submitting the order');

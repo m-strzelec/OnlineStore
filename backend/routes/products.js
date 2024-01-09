@@ -3,6 +3,7 @@ const router = express.Router();
 const Category = require('../models/category');
 const Product = require('../models/product');
 const HttpStatus = require('http-status-codes');
+const { Decimal128 } = require('mongodb');
 
 router.get('/', async (req, res) => {
     try {
@@ -32,7 +33,7 @@ router.post('/', async (req, res) => {
         const { name, description, price, weight, category } = req.body;
         const categoryExist = await Category.findById(category);
         if (!name || !description || price <= 0 || weight <= 0 || (!category || !categoryExist)) {
-            return res.status(HttpStatus.StatusCodes.BAD_REQUEST).json({ 
+            return res.status(HttpStatus.StatusCodes.BAD_REQUEST).json({
                 message: !name ? 'Nieprawidłowa nazwa produktu' :
                     !description ? 'Nieprawidłowy opis produktu' :
                         price <= 0 ? 'Nieprawidłowa cena produktu' :
@@ -50,6 +51,7 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
     try {
+        console.log("put body: ", req.body);
         const { name, description, price, weight, category } = req.body;
         const categoryExist = await Category.findById(category);
         if (!name || !description || price <= 0 || weight <= 0 || (!category || !categoryExist)) {
@@ -61,6 +63,8 @@ router.put('/:id', async (req, res) => {
                                 'Nieprawidłowa kategoria produktu'
             });
         }
+        req.body.price = Decimal128.fromString(req.body.price);
+        req.body.weight = Decimal128.fromString(req.body.weight);
         const updatedProduct = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
         if (!updatedProduct) {
             return res.status(HttpStatus.StatusCodes.NOT_FOUND).json({ message: 'Produkt nie znaleziony' });

@@ -3,8 +3,8 @@
     <td>{{ index }}</td>
     <td>{{ product.name }}</td>
     <td>{{ product.description }}</td>
-    <td>{{ product.price }} zł</td>
-    <td>{{ product.weight }} kg</td>
+    <td>{{ product.price.toFixed(2) }} zł</td>
+    <td>{{ product.weight.toFixed(3) }} kg</td>
     <td>{{ category }}</td>
     <td>
       <button @click="addToCart" class="btn btn-primary">Add to cart</button>

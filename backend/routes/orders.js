@@ -76,8 +76,14 @@ router.patch('/:id', async (req, res) => {
         if (!validStatusChange) {
             return res.status(HttpStatus.StatusCodes.BAD_REQUEST).json({ message: 'Nieprawidłowa zmiana statusu zamówienia' });
         }
-
-        const updatedOrder = await Order.findByIdAndUpdate(orderId, req.body, { new: true });
+        let data = req.body;
+        if (newStatus.name === 'APPROVED') {
+            const currentDate = new Date();
+            currentDate.setHours(currentDate.getHours() + 1);
+            const formattedDate = currentDate.toJSON().slice(0, 19).replace('T', ' ');
+            data = { orderStatus: newStatus._id, approvalDate: formattedDate }
+        }
+        const updatedOrder = await Order.findByIdAndUpdate(orderId, data, { new: true });
         if (!updatedOrder) {
             return res.status(HttpStatus.StatusCodes.NOT_FOUND).json({ message: 'Zamówienie nie znalezione' });
         }

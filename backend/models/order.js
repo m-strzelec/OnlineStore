@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const orderSchema = new mongoose.Schema({
-    approvalDate: { type: Date, default: null },
+    approvalDate: { type: String, default: '' },
     orderStatus: { type: mongoose.Schema.Types.ObjectId, ref: 'OrderStatus', default: '658c499242d4e6396743acc8' },
     userName: { type: String, required: true },
     email: { type: String, required: true },

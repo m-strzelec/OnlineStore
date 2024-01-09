@@ -11,34 +11,41 @@ const orderStatusRoutes = require('./routes/orderStatuses');
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Middleware to check access conditions
-// const checkAccess = (req, res, next) => {
-//   const allowedOrigins = ['http://localhost:8080'];
-//   const allowedPostRoutes = ['/orders'];
+// Custom CORS middleware
+function customCors(req, res, next) {
+  const adminOrigin = 'http://localhost:8081';
+  const clientOrigin = 'http://localhost:8080';
 
-//   if (!allowedOrigins.includes(req.headers.origin)) {
-//     return res.status(403).json({ error: 'Forbidden' });
-//   }
+  const origin = req.get('origin');
+  if (origin === adminOrigin) {
+    res.header('Access-Control-Allow-Origin', adminOrigin);
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+  } else if (origin === clientOrigin) {
+    res.header('Access-Control-Allow-Origin', clientOrigin);
+    if (req.path === '/orders' && req.method === 'POST') {
+      res.header('Access-Control-Allow-Methods', 'POST');
+    } else if ((req.path === '/products' || req.path === '/categories') && req.method === 'GET') {
+      res.header('Access-Control-Allow-Methods', 'GET');
+    } else {
+      res.status(405).send('Method Not Allowed');
+      return;
+    }
+  } else {
+    res.status(403).send('Origin Not Allowed');
+    return;
+  }
 
-//   if (req.method === 'POST' && allowedPostRoutes.includes(req.path)) {
-//     next();
-//   } else if (req.method === 'GET') {
-//     next();
-//   } else {
-//     return res.status(403).json({ error: 'Forbidden' });
-//   }
-// };
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  res.header('Access-Control-Allow-Credentials', 'true');
 
-// // Apply checkAccess middleware
-// app.use(checkAccess);
+  if (req.method === 'OPTIONS') {
+    res.sendStatus(200);
+  } else {
+    next();
+  }
+}
 
-const corsOptions = {
-  origin: 'http://localhost:8080',
-  methods: 'GET,PUT,PATCH,POST',
-  credentials: true,
-};
-
-app.use(cors(corsOptions));
+app.use(customCors);
 
 mongoose.connect('mongodb+srv://admin:admin@aji.laoxidk.mongodb.net/AJImainDB', {
   useNewUrlParser: true,
